@@ -1,0 +1,49 @@
+body{
+    background: url('res/2d_rpg_game_background_by_willowwisp.jpg') no-repeat;
+    background-size: cover;
+    font-family: 微軟正黑體;
+    transition: all 1.5s;
+}
+
+#first_view{
+    position : absolute;
+    margin: auto;
+    width: 300px;
+    left: 0px;
+    right: 0px;
+    top: 0px;
+    bottom: 0px;
+    padding: 50px 0px;
+}
+
+#title{
+    color:#ffffff;
+    font-size: 400%;
+    text-align: center;
+    text-shadow: 1px 1px 1px #000;
+}
+
+#loadbox{
+    position: absolute;
+    bottom: 50px;
+    margin-top: 200px;
+    background: rgba(0, 102, 255 ,0.7);
+    border: #fff 5px solid;
+    border-radius:  5px;
+    width: 100%;
+    padding: 10px;
+}
+
+#loadbox div.list{
+    padding: 10px 0px ;
+    color:#ffffff;
+    font-size: 150%;
+    text-align: center;
+    border: rgba(255,255,255,0) solid 2px;
+}
+
+#loadbox div.selected{
+    
+    border: rgba(255,255,255,0.2) solid 2px;
+    border-radius: 5px;
+}
