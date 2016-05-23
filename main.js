@@ -11,10 +11,17 @@ var init = {
         down : false,
         left : false,
         right : false,
-    }
+    },
+    inMenu : true
 };
 
 var setting = {
+    control : {
+        up  :   [38,87],
+        down:   [40,83],
+        left:   [37,65],
+        right:  [39,68]
+    },
     map : {
         sizeX : 32,
         sizeY : 32,
@@ -23,7 +30,7 @@ var setting = {
         left  : false,
         right : false
     },
-    FPS : 60, // 畫面更新率
+    max_FPS : 0, // 畫面更新率，不能 0 有 fps 計算 bug
     moveSpeed : 4,
     canvas : '#main_can' ,
     initPos : { // 初始位置
@@ -47,15 +54,13 @@ var Main = {
         };
     },
     init : function (){
-        canvas = $(setting.canvas)[0];
-        canvas.width = this.getWindowWidth();
-        canvas.height = this.getWindowHeight();
-    },
-    getWindowHeight : function(){
-        return window.innerHeight; // 取得視窗高度
-    },
-    getWindowWidth : function(){
-        return window.innerWidth; // 取得視窗寬度
+        View.init();
+        Controll.init();
+        inMenu = false;
+        $(window).unbind('keydown');
+        $('body').css('background','#000');
+        $('#first_view').fadeOut(setting.animateTime);
+        Game.start();
     },
     menuEvent   : function (){
         var nowsel = 0;
@@ -80,8 +85,6 @@ var Main = {
                         Sound.play('ok','exSound');
                         switch($('#loadbox .list').eq(nowsel).attr('data-doing')){
                             case 'init':
-                                $('body').css('background','#000');
-                                $('#first_view').fadeOut(setting.animateTime);
                                 Main.init();
                             ;break;
                         };
@@ -139,7 +142,7 @@ var Sound = {
                 this.players['bgSound'] = new AudioContext();
                 this.players['exSound'] = new AudioContext();
             }catch(e){
-                alert('載入Audio 發生錯誤,'+e);
+                Gui.debug('載入Audio 發生錯誤,'+e);
                 return false;
             };
             this.init = true;
@@ -168,7 +171,7 @@ var Sound = {
        
     },
     finishLoading : function( bufferList, t){
-        console.log(Sound.bufferList+'w');
+        Gui.debug(Sound.bufferList+'w');
         this.bufferList[t] = bufferList;
         this.has_load++;
         this.load_track();
@@ -185,7 +188,7 @@ var Sound = {
         if(isNumeric(index)){
             var source = Sound.players[type].createBufferSource();
             var gainNode = Sound.players[type].createGain();
-            console.log(this.bufferList);
+            Gui.debug(this.bufferList);
             source.buffer = this.bufferList[type][index] ;
             source.connect(gainNode);
             source.connect(this.players[type].destination);
@@ -209,6 +212,6 @@ function finishLoading(bufferList,t){
 };
 
 $(document).ready(function(){
-    //Main.init();
-    Main.menuEvent();
+    //Main.menuEvent();
+    Main.init();
 });
